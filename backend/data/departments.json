@@ -12,5 +12,12 @@
     "chainId": "dept-58c6a3f3-805d-4d4f-9062-b2bbc0bee4fe",
     "createdAt": "2025-11-14T13:00:27.118Z",
     "status": "active"
+  },
+  {
+    "id": "a27a3100-e62b-4327-b50d-e7c2e4d6448d",
+    "name": "Computer Science",
+    "chainId": "dept-a27a3100-e62b-4327-b50d-e7c2e4d6448d",
+    "createdAt": "2025-11-14T17:13:12.061Z",
+    "status": "active"
   }
 ]

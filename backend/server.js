@@ -7,6 +7,7 @@ const classesRoutes = require('./routes/classes');
 const studentsRoutes = require('./routes/students');
 const attendanceRoutes = require('./routes/attendance');
 const validationService = require('./services/validationService');
+const hierarchyRoutes = require('./routes/hierarchy');
 
 const app = express();
 app.use(cors());
@@ -16,7 +17,7 @@ app.use('/api/departments', deptsRoutes);
 app.use('/api/classes', classesRoutes);
 app.use('/api/students', studentsRoutes);
 app.use('/api/attendance', attendanceRoutes);
-
+app.use('/api/hierarchy', hierarchyRoutes);
 // Validation endpoint
 app.get('/api/validate-all', async (req, res) => {
     try {

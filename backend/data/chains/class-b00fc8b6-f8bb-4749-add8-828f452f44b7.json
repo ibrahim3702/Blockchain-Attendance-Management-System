@@ -1,0 +1,19 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "class_genesis",
+        "classMeta": {
+          "id": "b00fc8b6-f8bb-4749-add8-828f452f44b7",
+          "parentDeptId": "a27a3100-e62b-4327-b50d-e7c2e4d6448d",
+          "name": "CS101 - Intro to Blockchain2"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T17:13:24.848Z",
+    "prev_hash": "0000501e41a6f2860563588a1aa37bdefe95f38ccb03bc1a9addca8490667b21",
+    "nonce": 54805,
+    "hash": "000001a1f8789faec2b93241e7c667623566be1098958fc39ae41dd29429f392"
+  }
+]

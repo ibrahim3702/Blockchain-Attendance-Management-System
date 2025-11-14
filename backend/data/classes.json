@@ -14,5 +14,13 @@
     "chainId": "class-08038b51-474f-4ed7-a6de-4cc13a22f8b6",
     "createdAt": "2025-11-14T13:00:27.816Z",
     "status": "active"
+  },
+  {
+    "id": "b00fc8b6-f8bb-4749-add8-828f452f44b7",
+    "name": "CS101 - Intro to Blockchain2",
+    "parentDeptId": "a27a3100-e62b-4327-b50d-e7c2e4d6448d",
+    "chainId": "class-b00fc8b6-f8bb-4749-add8-828f452f44b7",
+    "createdAt": "2025-11-14T17:13:24.848Z",
+    "status": "active"
   }
 ]

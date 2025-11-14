@@ -1,0 +1,81 @@
+.hierarchy-explorer {
+    padding: 20px;
+    background-color: #222;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-top: 20px;
+}
+
+.hierarchy-tree {
+    list-style: none;
+    padding-left: 0;
+}
+
+.tree-node {
+    margin: 10px 0;
+    padding-left: 20px;
+    border-left: 2px solid var(--border-color);
+    position: relative;
+}
+
+.tree-node::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 15px;
+    height: 2px;
+    background-color: var(--border-color);
+}
+
+.tree-node-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--surface-color);
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    transition: border-color 0.2s;
+}
+
+.tree-node-content:hover {
+    border-color: var(--primary-color);
+}
+
+.node-icon {
+    font-size: 1.2rem;
+}
+
+.node-details {
+    flex-grow: 1;
+}
+
+.node-details strong {
+    font-size: 1rem;
+}
+
+.node-details span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: block;
+}
+
+.tree-node ul {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+/* Node type styling */
+.tree-node-content.department {
+    border-left: 4px solid var(--block-genesis);
+}
+
+.tree-node-content.class {
+    border-left: 4px solid var(--block-update);
+}
+
+.tree-node-content.student {
+    border-left: 4px solid var(--block-attendance);
+}

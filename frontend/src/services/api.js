@@ -9,7 +9,7 @@ const api = axios.create({ baseURL: API_URL });
 
 // --- Validation ---
 export const validateChains = () => api.get('/validate-all');
-
+export const getHierarchyTree = () => api.get('/hierarchy/tree');
 // --- Departments ---
 export const getDepts = () => api.get('/departments');
 export const createDept = (data) => api.post('/departments', data);
@@ -60,7 +60,8 @@ const apiService = {
     updateStudent,
     deleteStudent,
     getStudentChain,
-    markAttendance
+    markAttendance,
+    getHierarchyTree
 };
 
 export default apiService;

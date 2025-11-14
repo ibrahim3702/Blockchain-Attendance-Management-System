@@ -1,0 +1,18 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "department_genesis",
+        "deptMeta": {
+          "id": "a27a3100-e62b-4327-b50d-e7c2e4d6448d",
+          "name": "Computer Science"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T17:13:12.061Z",
+    "prev_hash": "0",
+    "nonce": 27277,
+    "hash": "0000501e41a6f2860563588a1aa37bdefe95f38ccb03bc1a9addca8490667b21"
+  }
+]
