@@ -1,0 +1,29 @@
+[
+  {
+    "id": "d8a96f4b-f4ad-487f-a927-aa536342a682",
+    "name": "Alice Smith",
+    "rollNo": "CS-001",
+    "parentClassId": "875795af-e047-40ea-8251-a86502513e24",
+    "chainId": "student-d8a96f4b-f4ad-487f-a927-aa536342a682",
+    "createdAt": "2025-11-14T13:00:27.909Z",
+    "status": "deleted"
+  },
+  {
+    "id": "3dc23c07-7a9a-45e9-b985-d4606f51b4e5",
+    "name": "Robert Johnson",
+    "rollNo": "CS-002",
+    "parentClassId": "875795af-e047-40ea-8251-a86502513e24",
+    "chainId": "student-3dc23c07-7a9a-45e9-b985-d4606f51b4e5",
+    "createdAt": "2025-11-14T13:00:27.922Z",
+    "status": "deleted"
+  },
+  {
+    "id": "1d1ce9ad-fb92-4df2-801b-cbcf9785af0d",
+    "name": "Charlie Lee",
+    "rollNo": "SWE-001",
+    "parentClassId": "08038b51-474f-4ed7-a6de-4cc13a22f8b6",
+    "chainId": "student-1d1ce9ad-fb92-4df2-801b-cbcf9785af0d",
+    "createdAt": "2025-11-14T13:00:27.944Z",
+    "status": "active"
+  }
+]

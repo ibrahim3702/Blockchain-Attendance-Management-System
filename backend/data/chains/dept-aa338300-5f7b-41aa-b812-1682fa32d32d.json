@@ -1,0 +1,31 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "department_genesis",
+        "deptMeta": {
+          "id": "aa338300-5f7b-41aa-b812-1682fa32d32d",
+          "name": "School of Computing"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:27.001Z",
+    "prev_hash": "0",
+    "nonce": 39605,
+    "hash": "00000126e639835879ebe21ad418d43ceb23d7b4577a8cbfffe426a36be0a1bc"
+  },
+  {
+    "index": 1,
+    "transactions": [
+      {
+        "type": "department_delete",
+        "status": "deleted"
+      }
+    ],
+    "timestamp": "2025-11-14T13:01:27.937Z",
+    "prev_hash": "00000126e639835879ebe21ad418d43ceb23d7b4577a8cbfffe426a36be0a1bc",
+    "nonce": 48148,
+    "hash": "0000be5ead904a41580537ef89891887810847b6635a21ecbdedc31dd901ab67"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "student_genesis",
+        "studentMeta": {
+          "id": "3dc23c07-7a9a-45e9-b985-d4606f51b4e5",
+          "parentClassId": "875795af-e047-40ea-8251-a86502513e24",
+          "name": "Bob Johnson",
+          "rollNo": "CS-002"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:27.922Z",
+    "prev_hash": "0000a83ba997b98e2b4a257047f27e715666ba426056b49ad7d0bcf95b915dd8",
+    "nonce": 5487,
+    "hash": "0000a9ac14fce32cad7da1e5fb95efe4b18c10ac8fc83de38c1feb9a7f9daeca"
+  },
+  {
+    "index": 1,
+    "transactions": [
+      {
+        "type": "attendance_mark",
+        "studentId": "3dc23c07-7a9a-45e9-b985-d4606f51b4e5",
+        "classId": "875795af-e047-40ea-8251-a86502513e24",
+        "status": "Present",
+        "notes": "Day 1"
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:29.363Z",
+    "prev_hash": "0000a9ac14fce32cad7da1e5fb95efe4b18c10ac8fc83de38c1feb9a7f9daeca",
+    "nonce": 23433,
+    "hash": "0000f4581d6139206d18e25a8aab2ef611528c28a2e3a31a1ecb861a87aa4f6a"
+  },
+  {
+    "index": 2,
+    "transactions": [
+      {
+        "type": "attendance_mark",
+        "studentId": "3dc23c07-7a9a-45e9-b985-d4606f51b4e5",
+        "classId": "875795af-e047-40ea-8251-a86502513e24",
+        "status": "Leave",
+        "notes": "Day 2 - Sick"
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:29.466Z",
+    "prev_hash": "0000f4581d6139206d18e25a8aab2ef611528c28a2e3a31a1ecb861a87aa4f6a",
+    "nonce": 126346,
+    "hash": "00003169df19e51d4311cb00192391984abea593c065faea209bf3bbaf282502"
+  },
+  {
+    "index": 3,
+    "transactions": [
+      {
+        "type": "student_update",
+        "updateMeta": {
+          "name": "Robert Johnson"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:29.954Z",
+    "prev_hash": "00003169df19e51d4311cb00192391984abea593c065faea209bf3bbaf282502",
+    "nonce": 112837,
+    "hash": "00002beaf43ef71de5880a244bb70ab376ecc1535006dbe32ac2be478ce96586"
+  },
+  {
+    "index": 4,
+    "transactions": [
+      {
+        "type": "student_delete",
+        "status": "deleted"
+      }
+    ],
+    "timestamp": "2025-11-14T13:01:16.075Z",
+    "prev_hash": "00002beaf43ef71de5880a244bb70ab376ecc1535006dbe32ac2be478ce96586",
+    "nonce": 74962,
+    "hash": "00000d90365eabdf7222d2b228a3a4bb527fc5060a9ed62b8b91a2ab779c0f39"
+  }
+]

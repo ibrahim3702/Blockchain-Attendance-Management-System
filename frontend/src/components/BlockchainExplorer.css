@@ -1,0 +1,135 @@
+.blockchain-explorer {
+    width: 100%;
+}
+
+.chain-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 20px;
+    background-color: #111;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.chain-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 2.5rem;
+    font-weight: bold;
+    padding: 0 15px;
+    min-width: 50px;
+}
+
+.block-card {
+    min-width: 350px;
+    max-width: 350px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--surface-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+}
+
+.block-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.block-header {
+    padding: 10px 15px;
+    border-bottom: 2px solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.block-body {
+    padding: 15px;
+    font-size: 0.9rem;
+}
+
+.block-field {
+    margin-bottom: 10px;
+}
+
+.block-field label {
+    font-weight: bold;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 3px;
+}
+
+.block-field span {
+    word-wrap: break-word;
+}
+
+.block-field .hash-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    word-break: break-all;
+}
+
+.block-field pre {
+    margin-top: 5px;
+    font-size: 0.8rem;
+}
+
+/* Statuses */
+.status.valid {
+    color: var(--success-color);
+}
+
+.status.invalid {
+    color: var(--danger-color);
+}
+
+/* Block Types */
+.block-card.genesis {
+    border-color: var(--block-genesis);
+}
+
+.block-card.genesis .block-header {
+    border-color: var(--block-genesis);
+    color: var(--block-genesis);
+}
+
+.block-card.attendance {
+    border-color: var(--block-attendance);
+}
+
+.block-card.attendance .block-header {
+    border-color: var(--block-attendance);
+    color: var(--block-attendance);
+}
+
+.block-card.update {
+    border-color: var(--block-update);
+}
+
+.block-card.update .block-header {
+    border-color: var(--block-update);
+    color: var(--block-update);
+}
+
+.block-card.delete {
+    border-color: var(--block-delete);
+}
+
+.block-card.delete .block-header {
+    border-color: var(--block-delete);
+    color: var(--block-delete);
+}
+
+.block-card.invalid {
+    border-color: var(--block-invalid);
+    background-color: #4b2c30;
+}
+
+.block-card.invalid .block-header {
+    border-color: var(--block-invalid);
+    color: var(--block-invalid);
+}

@@ -1,0 +1,19 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "class_genesis",
+        "classMeta": {
+          "id": "08038b51-474f-4ed7-a6de-4cc13a22f8b6",
+          "parentDeptId": "58c6a3f3-805d-4d4f-9062-b2bbc0bee4fe",
+          "name": "SWE404 - Secure Systems"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:27.816Z",
+    "prev_hash": "000053320efb8eefc0245c9d67ba74db2ab09c51fcea703c3846f38863d38093",
+    "nonce": 30986,
+    "hash": "00005550814b33f2f3a750e824f06a39c4682d49f40d62ef96dafa7035be1614"
+  }
+]

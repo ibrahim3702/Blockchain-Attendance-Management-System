@@ -1,0 +1,18 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "department_genesis",
+        "deptMeta": {
+          "id": "58c6a3f3-805d-4d4f-9062-b2bbc0bee4fe",
+          "name": "School of Software Engineering"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:27.118Z",
+    "prev_hash": "0",
+    "nonce": 113189,
+    "hash": "000053320efb8eefc0245c9d67ba74db2ab09c51fcea703c3846f38863d38093"
+  }
+]

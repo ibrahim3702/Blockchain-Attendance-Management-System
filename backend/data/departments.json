@@ -1,0 +1,16 @@
+[
+  {
+    "id": "aa338300-5f7b-41aa-b812-1682fa32d32d",
+    "name": "School of Computing",
+    "chainId": "dept-aa338300-5f7b-41aa-b812-1682fa32d32d",
+    "createdAt": "2025-11-14T13:00:27.001Z",
+    "status": "deleted"
+  },
+  {
+    "id": "58c6a3f3-805d-4d4f-9062-b2bbc0bee4fe",
+    "name": "School of Software Engineering",
+    "chainId": "dept-58c6a3f3-805d-4d4f-9062-b2bbc0bee4fe",
+    "createdAt": "2025-11-14T13:00:27.118Z",
+    "status": "active"
+  }
+]

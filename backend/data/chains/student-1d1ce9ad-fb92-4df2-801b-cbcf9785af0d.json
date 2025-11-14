@@ -1,0 +1,36 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "student_genesis",
+        "studentMeta": {
+          "id": "1d1ce9ad-fb92-4df2-801b-cbcf9785af0d",
+          "parentClassId": "08038b51-474f-4ed7-a6de-4cc13a22f8b6",
+          "name": "Charlie Lee",
+          "rollNo": "SWE-001"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:27.944Z",
+    "prev_hash": "00005550814b33f2f3a750e824f06a39c4682d49f40d62ef96dafa7035be1614",
+    "nonce": 167126,
+    "hash": "0000c78aeef346e4fd69fba8ca2a6590b3a35dbef17bdcaf670b66d91b334b7e"
+  },
+  {
+    "index": 1,
+    "transactions": [
+      {
+        "type": "attendance_mark",
+        "studentId": "1d1ce9ad-fb92-4df2-801b-cbcf9785af0d",
+        "classId": "08038b51-474f-4ed7-a6de-4cc13a22f8b6",
+        "status": "Present",
+        "notes": "Day 1"
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:29.886Z",
+    "prev_hash": "0000c78aeef346e4fd69fba8ca2a6590b3a35dbef17bdcaf670b66d91b334b7e",
+    "nonce": 15618,
+    "hash": "000022d93b2999f95fdfe7c8eba6f3f49775700337ea354a41987bb4e3267f19"
+  }
+]

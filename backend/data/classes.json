@@ -1,0 +1,18 @@
+[
+  {
+    "id": "875795af-e047-40ea-8251-a86502513e24",
+    "name": "CS101 - Intro to Blockchain",
+    "parentDeptId": "aa338300-5f7b-41aa-b812-1682fa32d32d",
+    "chainId": "class-875795af-e047-40ea-8251-a86502513e24",
+    "createdAt": "2025-11-14T13:00:27.428Z",
+    "status": "deleted"
+  },
+  {
+    "id": "08038b51-474f-4ed7-a6de-4cc13a22f8b6",
+    "name": "SWE404 - Secure Systems",
+    "parentDeptId": "58c6a3f3-805d-4d4f-9062-b2bbc0bee4fe",
+    "chainId": "class-08038b51-474f-4ed7-a6de-4cc13a22f8b6",
+    "createdAt": "2025-11-14T13:00:27.816Z",
+    "status": "active"
+  }
+]

@@ -1,0 +1,81 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "student_genesis",
+        "studentMeta": {
+          "id": "d8a96f4b-f4ad-487f-a927-aa536342a682",
+          "parentClassId": "875795af-e047-40ea-8251-a86502513e24",
+          "name": "Alice Smith",
+          "rollNo": "CS-001"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:27.909Z",
+    "prev_hash": "0000a83ba997b98e2b4a257047f27e715666ba426056b49ad7d0bcf95b915dd8",
+    "nonce": 3718,
+    "hash": "0000eb884400000cd83d9e2a4065970ed0dfc92a2da35ee80756c11c163eb9ba"
+  },
+  {
+    "index": 1,
+    "transactions": [
+      {
+        "type": "attendance_mark",
+        "studentId": "d8a96f4b-f4ad-487f-a927-aa536342a682",
+        "classId": "875795af-e047-40ea-8251-a86502513e24",
+        "status": "Present",
+        "notes": "Day 1"
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:28.448Z",
+    "prev_hash": "0000eb884400000cd83d9e2a4065970ed0dfc92a2da35ee80756c11c163eb9ba",
+    "nonce": 55173,
+    "hash": "00006a77a7e059d661503477ca375b7c4502fd0bd8a19c3976dd7109a94234b1"
+  },
+  {
+    "index": 2,
+    "transactions": [
+      {
+        "type": "attendance_mark",
+        "studentId": "d8a96f4b-f4ad-487f-a927-aa536342a682",
+        "classId": "875795af-e047-40ea-8251-a86502513e24",
+        "status": "Present",
+        "notes": "Day 2"
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:28.618Z",
+    "prev_hash": "00006a77a7e059d661503477ca375b7c4502fd0bd8a19c3976dd7109a94234b1",
+    "nonce": 177626,
+    "hash": "0000f2a41e071c6a23c1b2a21cf83010d30a456561c69d7933891d29dc223607"
+  },
+  {
+    "index": 3,
+    "transactions": [
+      {
+        "type": "attendance_mark",
+        "studentId": "d8a96f4b-f4ad-487f-a927-aa536342a682",
+        "classId": "875795af-e047-40ea-8251-a86502513e24",
+        "status": "Absent",
+        "notes": "Day 3"
+      }
+    ],
+    "timestamp": "2025-11-14T13:00:29.198Z",
+    "prev_hash": "0000f2a41e071c6a23c1b2a21cf83010d30a456561c69d7933891d29dc223607",
+    "nonce": 52118,
+    "hash": "00006cb0f78b71ac87f3daf3573552fe2fca18d6bf8b931e1b411788eb7a7b2b"
+  },
+  {
+    "index": 4,
+    "transactions": [
+      {
+        "type": "student_delete",
+        "status": "deleted"
+      }
+    ],
+    "timestamp": "2025-11-14T13:01:13.474Z",
+    "prev_hash": "00006cb0f78b71ac87f3daf3573552fe2fca18d6bf8b931e1b411788eb7a7b2b",
+    "nonce": 59621,
+    "hash": "0000b54c6689b6280e051fa0191dc7ecfa241e32c30c3f6bbb412ee26b50bd43"
+  }
+]
