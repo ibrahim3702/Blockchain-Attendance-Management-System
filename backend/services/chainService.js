@@ -5,7 +5,8 @@ const Block = require('../blockchain/Block');
 const { readJSON, writeJSON, DATA_DIR } = require('./dataService');
 const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
+const uuid = (...args) => import("uuid").then(m => m.v4(...args));
 
 const DIFFICULTY = '0000';
 const CHAINS_DIR = path.join(DATA_DIR, 'chains');
@@ -60,7 +61,8 @@ function _addBlockToChain(chainId, transactions) {
 // --- Department APIs ---
 async function createDepartment(deptMeta) {
     const depts = _readRegistry('departments.json');
-    const id = uuidv4();
+    const id = await uuid();
+
     const chainId = `dept-${id}`;
 
     const chain = new DepartmentChain(id, DIFFICULTY);
@@ -135,7 +137,8 @@ async function createClass(classMeta, parentDeptId) {
     if (!parentHash) throw new Error('Parent department chain is empty');
 
     const classes = _readRegistry('classes.json');
-    const id = uuidv4();
+    const id = await uuid();
+
     const chainId = `class-${id}`;
 
     const chain = new ClassChain(id, parentHash, DIFFICULTY);
@@ -211,7 +214,8 @@ async function createStudent(studentMeta, parentClassId) {
     if (!parentHash) throw new Error('Parent class chain is empty');
 
     const students = _readRegistry('students.json');
-    const id = uuidv4();
+    const id = await uuid();
+
     const chainId = `student-${id}`;
 
     const chain = new StudentChain(id, parentHash, DIFFICULTY);
