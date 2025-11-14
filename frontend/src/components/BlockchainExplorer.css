@@ -1,24 +1,134 @@
-.blockchain-explorer{width:100%}
-.chain-container{display:flex;overflow-x:auto;padding:18px;gap:14px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border-radius:12px;border:1px solid var(--border-color)}
-.chain-link{display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:2.1rem;font-weight:700;padding:0 12px;min-width:48px}
-.block-card{min-width:320px;max-width:360px;border-radius:12px;border:1px solid var(--border-color);background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.008));box-shadow:0 18px 40px rgba(2,6,23,0.55);transition:transform .16s ease, box-shadow .16s ease}
-.block-card:hover{transform:translateY(-8px);box-shadow:0 28px 60px rgba(2,6,23,0.6)}
-.block-header{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;justify-content:space-between;align-items:center;font-size:1.05rem}
-.block-body{padding:14px;font-size:.95rem}
-.block-field{margin-bottom:10px}
-.block-field label{font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px}
-.block-field span{word-wrap:break-word}
-.block-field .hash-text{font-family:'Courier New',Courier,monospace;font-size:.85rem;color:var(--primary-2);word-break:break-all}
-.block-field pre{margin-top:6px;font-size:.82rem}
-.status.valid{color:var(--success-color)}
-.status.invalid{color:var(--danger-color)}
-.block-card.genesis{border-color:var(--block-genesis)}
-.block-card.genesis .block-header{border-color:var(--block-genesis);color:var(--block-genesis)}
-.block-card.attendance{border-color:var(--block-attendance)}
-.block-card.attendance .block-header{border-color:var(--block-attendance);color:var(--block-attendance)}
-.block-card.update{border-color:var(--block-update)}
-.block-card.update .block-header{border-color:var(--block-update);color:var(--block-update)}
-.block-card.delete{border-color:var(--block-delete)}
-.block-card.delete .block-header{border-color:var(--block-delete);color:var(--block-delete)}
-.block-card.invalid{border-color:var(--block-invalid);background:linear-gradient(180deg,#4b2c30,#3a1f22)}
-.block-card.invalid .block-header{border-color:var(--block-invalid);color:var(--block-invalid)}
+.blockchain-explorer {
+    width: 100%
+}
+
+.chain-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 18px;
+    gap: 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+    border-radius: 12px;
+    border: 1px solid var(--border-color)
+}
+
+.chain-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 2.1rem;
+    font-weight: 700;
+    padding: 0 12px;
+    min-width: 48px
+}
+
+.block-card {
+    min-width: 320px;
+    max-width: 360px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.008));
+    box-shadow: 0 18px 40px rgba(2, 6, 23, 0.55);
+    transition: transform .16s ease, box-shadow .16s ease
+}
+
+.block-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 28px 60px rgba(2, 6, 23, 0.6)
+}
+
+.block-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05rem
+}
+
+.block-body {
+    padding: 14px;
+    font-size: .95rem
+}
+
+.block-field {
+    margin-bottom: 10px
+}
+
+.block-field label {
+    font-weight: 700;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 4px
+}
+
+.block-field span {
+    word-wrap: break-word
+}
+
+.block-field .hash-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: .85rem;
+    color: var(--primary-2);
+    word-break: break-all
+}
+
+.block-field pre {
+    margin-top: 6px;
+    font-size: .82rem
+}
+
+.status.valid {
+    color: var(--success-color)
+}
+
+.status.invalid {
+    color: var(--danger-color)
+}
+
+.block-card.genesis {
+    border-color: var(--block-genesis)
+}
+
+.block-card.genesis .block-header {
+    border-color: var(--block-genesis);
+    color: var(--block-genesis)
+}
+
+.block-card.attendance {
+    border-color: var(--block-attendance)
+}
+
+.block-card.attendance .block-header {
+    border-color: var(--block-attendance);
+    color: var(--block-attendance)
+}
+
+.block-card.update {
+    border-color: var(--block-update)
+}
+
+.block-card.update .block-header {
+    border-color: var(--block-update);
+    color: var(--block-update)
+}
+
+.block-card.delete {
+    border-color: var(--block-delete)
+}
+
+.block-card.delete .block-header {
+    border-color: var(--block-delete);
+    color: var(--block-delete)
+}
+
+.block-card.invalid {
+    border-color: var(--block-invalid);
+    background: linear-gradient(180deg, #4b2c30, #3a1f22)
+}
+
+.block-card.invalid .block-header {
+    border-color: var(--block-invalid);
+    color: var(--block-invalid)
+}
