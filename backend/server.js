@@ -27,5 +27,6 @@ app.get('/api/validate-all', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`BAMS backend listening on ${PORT}`));
+// const PORT = process.env.PORT || 4000;
+// app.listen(PORT, () => console.log(`BAMS backend listening on ${PORT}`));
+module.exports = serverless(app);
