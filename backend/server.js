@@ -26,6 +26,8 @@ app.get('/api/validate-all', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
+app.get('/', (req, res) => {
+    res.send('BAMS Backend is running.');
+});
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`BAMS backend listening on ${PORT}`));
