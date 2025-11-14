@@ -1,0 +1,20 @@
+[
+  {
+    "index": 0,
+    "transactions": [
+      {
+        "type": "student_genesis",
+        "studentMeta": {
+          "id": "9db80f19-fd44-4e0c-b6c8-ea5ccb33eeb2",
+          "parentClassId": "08038b51-474f-4ed7-a6de-4cc13a22f8b6",
+          "name": "Ibrahim Faisal",
+          "rollNo": "22F-3702"
+        }
+      }
+    ],
+    "timestamp": "2025-11-14T18:01:14.425Z",
+    "prev_hash": "00005550814b33f2f3a750e824f06a39c4682d49f40d62ef96dafa7035be1614",
+    "nonce": 99445,
+    "hash": "0000d530396c5e1de80e2a0f6c92010ae2261b00632085c9d3d0f6b3eefa523b"
+  }
+]

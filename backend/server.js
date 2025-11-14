@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -8,11 +9,11 @@ const studentsRoutes = require('./routes/students');
 const attendanceRoutes = require('./routes/attendance');
 const validationService = require('./services/validationService');
 const hierarchyRoutes = require('./routes/hierarchy');
-
+const connectDB = require('./utils/db');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
+connectDB();
 app.use('/api/departments', deptsRoutes);
 app.use('/api/classes', classesRoutes);
 app.use('/api/students', studentsRoutes);

@@ -52,18 +52,15 @@ async function validateAllChains() {
     const report = {
         valid: true,
         departments: [],
-        summary: {
-            totalInvalid: 0,
-        }
+        summary: { totalInvalid: 0 }
     };
 
-    const depts = chainService._readRegistry('departments.json');
-    const classes = chainService._readRegistry('classes.json');
-    const students = chainService._readRegistry('students.json');
+    // Get all data from the DB at once
+    const { depts, classes, students } = await chainService._getAllDocsForValidation();
 
     for (const dept of depts) {
-        const deptReport = { id: dept.id, chainId: dept.chainId, valid: true, classes: [] };
-        const deptChain = chainService._loadChainFile(dept.chainId);
+        const deptReport = { id: dept.deptId, chainId: `dept-${dept.deptId}`, valid: true, classes: [] };
+        const deptChain = dept.chain;
 
         // 1. Validate Department Chain
         const deptValidation = _validateChain(deptChain, '0');
@@ -74,39 +71,30 @@ async function validateAllChains() {
             report.summary.totalInvalid++;
         }
 
-        // --- NEW LOGIC: Create a set of all valid hashes in the parent chain ---
         const deptHashes = new Set(deptChain.map(b => b.hash));
-        // --- END NEW LOGIC ---
-
-        const childClasses = classes.filter(c => c.parentDeptId === dept.id);
+        const childClasses = classes.filter(c => c.parentDeptId === dept.deptId);
 
         for (const cls of childClasses) {
-            const classReport = { id: cls.id, chainId: cls.chainId, valid: true, students: [] };
-            const classChain = chainService._loadChainFile(cls.chainId);
+            const classReport = { id: cls.classId, chainId: `class-${cls.classId}`, valid: true, students: [] };
+            const classChain = cls.chain;
 
             if (!classChain || classChain.length === 0) {
-                // Handle empty/missing chain file
                 classReport.valid = false;
-                classReport.reason = "Chain file not found or is empty.";
+                classReport.reason = "Chain is empty.";
                 report.valid = false;
                 report.summary.totalInvalid++;
                 deptReport.classes.push(classReport);
-                continue; // Skip to next class
+                continue;
             }
 
             // 2. Validate Class Chain
-            // --- START UPDATED VALIDATION LOGIC ---
             const classGenesisPrevHash = classChain[0].prev_hash;
-
-            // 2a. Check if the genesis link exists ANYWHERE in the parent (department) chain
             if (!deptHashes.has(classGenesisPrevHash)) {
                 classReport.valid = false;
                 classReport.reason = "Genesis link broken. Parent department chain does not contain this hash.";
                 report.valid = false;
                 report.summary.totalInvalid++;
             } else {
-                // 2b. If the link is historically valid, validate the class chain INTERNALLY
-                // We pass its *own* expected genesis hash to confirm its integrity
                 const classInternalValidation = _validateChain(classChain, classGenesisPrevHash);
                 if (!classInternalValidation.valid) {
                     classReport.valid = false;
@@ -115,36 +103,31 @@ async function validateAllChains() {
                     report.summary.totalInvalid++;
                 }
             }
-            // --- END UPDATED VALIDATION LOGIC ---
 
-            // Create a set of all valid hashes in this class chain for its children
             const classHashes = new Set(classChain.map(b => b.hash));
-            const childStudents = students.filter(s => s.parentClassId === cls.id);
+            const childStudents = students.filter(s => s.parentClassId === cls.classId);
 
             for (const stu of childStudents) {
-                const stuReport = { id: stu.id, chainId: stu.chainId, valid: true };
-                const stuChain = chainService._loadChainFile(stu.chainId);
+                const stuReport = { id: stu.studentId, chainId: `student-${stu.studentId}`, valid: true };
+                const stuChain = stu.chain;
 
                 if (!stuChain || stuChain.length === 0) {
                     stuReport.valid = false;
-                    stuReport.reason = "Chain file not found or is empty.";
+                    stuReport.reason = "Chain is empty.";
                     report.valid = false;
                     report.summary.totalInvalid++;
                     classReport.students.push(stuReport);
-                    continue; // Skip to next student
+                    continue;
                 }
 
-                // 3. Validate Student Chain (using the same new logic)
+                // 3. Validate Student Chain
                 const stuGenesisPrevHash = stuChain[0].prev_hash;
-
-                // 3a. Check if the link exists ANYWHERE in the parent (class) chain
                 if (!classHashes.has(stuGenesisPrevHash)) {
                     stuReport.valid = false;
                     stuReport.reason = "Genesis link broken. Parent class chain does not contain this hash.";
                     report.valid = false;
                     report.summary.totalInvalid++;
                 } else {
-                    // 3b. If the link is historically valid, validate the student chain INTERNALLY
                     const stuInternalValidation = _validateChain(stuChain, stuGenesisPrevHash);
                     if (!stuInternalValidation.valid) {
                         stuReport.valid = false;
@@ -162,5 +145,4 @@ async function validateAllChains() {
 
     return report;
 }
-
 module.exports = { validateAllChains, _validateChain };

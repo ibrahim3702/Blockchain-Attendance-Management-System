@@ -1,32 +1,26 @@
+// backend/seed.js
+require('dotenv').config();
 const chainService = require('./services/chainService');
-const fs = require('fs');
-const path = require('path');
+const connectDB = require('./utils/db'); // <-- ADD THIS
+const Department = require('./models/Department');
+const Class = require('./models/Class');
+const Student = require('./models/Student');
 
 async function clearData() {
+    console.log('Connecting to DB to clear data...');
+    await connectDB(); // Ensure connection
     console.log('Clearing old data...');
-    const dataDir = path.join(__dirname, 'data');
-    const chainsDir = path.join(dataDir, 'chains');
-
-    if (fs.existsSync(chainsDir)) {
-        fs.rmSync(chainsDir, { recursive: true, force: true });
-    }
-    if (fs.existsSync(path.join(dataDir, 'departments.json'))) {
-        fs.unlinkSync(path.join(dataDir, 'departments.json'));
-    }
-    if (fs.existsSync(path.join(dataDir, 'classes.json'))) {
-        fs.unlinkSync(path.join(dataDir, 'classes.json'));
-    }
-    if (fs.existsSync(path.join(dataDir, 'students.json'))) {
-        fs.unlinkSync(path.join(dataDir, 'students.json'));
-    }
+    await Department.deleteMany({});
+    await Class.deleteMany({});
+    await Student.deleteMany({});
     console.log('Old data cleared.');
 }
 
 async function seed() {
-    await clearData();
-    console.log('Seeding database...');
-
     try {
+        await clearData();
+        console.log('Seeding database...');
+
         // 1. Create Departments
         const compDept = await chainService.createDepartment({ name: 'School of Computing' });
         const sweDept = await chainService.createDepartment({ name: 'School of Software Engineering' });
@@ -57,17 +51,16 @@ async function seed() {
         await chainService.markAttendance(stu3.id, { status: 'Present', notes: 'Day 1' });
         console.log('Attendance marked.');
 
-        // 5. Perform Update/Delete (to test append-only immutability)
+        // 5. Perform Update
         console.log('Updating Bob Johnson to Robert Johnson...');
         await chainService.updateStudent(stu2.id, { name: 'Robert Johnson' });
 
-        console.log('Deleting SWE department (will be marked as deleted)...');
-        await chainService.deleteDepartment(sweDept.id);
-
         console.log('Seeding complete!');
-
+        console.log('Run `npm run dev` to start the server.');
+        process.exit(0); // Exit script on success
     } catch (err) {
         console.error('Seeding failed:', err.message);
+        process.exit(1); // Exit script on failure
     }
 }
 

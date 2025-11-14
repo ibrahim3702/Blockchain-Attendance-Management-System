@@ -66,9 +66,9 @@ const Blockchain3D = () => {
 
         try {
             let res;
-            if (node.type === 'department') res = await mockApi.getDeptChain(node.chainId);
-            else if (node.type === 'class') res = await mockApi.getClassChain(node.chainId);
-            else if (node.type === 'student') res = await mockApi.getStudentChain(node.chainId);
+            if (node.type === 'department') res = await api.getDeptChain(node.chainId);
+            else if (node.type === 'class') res = await api.getClassChain(node.chainId);
+            else if (node.type === 'student') res = await api.getStudentChain(node.chainId);
 
             setSelectedChainData(res.data);
         } catch (err) {

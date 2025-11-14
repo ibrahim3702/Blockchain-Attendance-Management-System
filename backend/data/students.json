@@ -25,5 +25,14 @@
     "chainId": "student-1d1ce9ad-fb92-4df2-801b-cbcf9785af0d",
     "createdAt": "2025-11-14T13:00:27.944Z",
     "status": "active"
+  },
+  {
+    "id": "9db80f19-fd44-4e0c-b6c8-ea5ccb33eeb2",
+    "name": "Ibrahim Faisal",
+    "rollNo": "22F-3702",
+    "parentClassId": "08038b51-474f-4ed7-a6de-4cc13a22f8b6",
+    "chainId": "student-9db80f19-fd44-4e0c-b6c8-ea5ccb33eeb2",
+    "createdAt": "2025-11-14T18:01:14.425Z",
+    "status": "active"
   }
 ]
