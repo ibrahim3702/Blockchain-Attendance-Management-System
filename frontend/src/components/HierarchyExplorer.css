@@ -1,9 +1,11 @@
 .hierarchy-explorer {
     padding: 20px;
-    background-color: #222;
-    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.015));
+    border-radius: 12px;
     border: 1px solid var(--border-color);
     margin-top: 20px;
+    backdrop-filter: blur(var(--glass-blur));
+    box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
 }
 
 .hierarchy-tree {
@@ -32,15 +34,15 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: var(--surface-color);
+    background: var(--surface-color);
     padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid var(--border-color);
     transition: border-color 0.2s;
 }
 
 .tree-node-content:hover {
-    border-color: var(--primary-color);
+    border-color: var(--primary-2);
 }
 
 .node-icon {

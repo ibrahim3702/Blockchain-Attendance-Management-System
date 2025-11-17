@@ -1,17 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom'; // Use NavLink for active class
+import ThemeToggle from './ThemeToggle';
 import './NavBar.css';
 
 const NavBar = () => {
     return (
         <nav className="navbar">
-            <Link className="nav-brand" to="/">BAMS Dashboard</Link>
+            <NavLink className="nav-brand" to="/">BAMS Dashboard</NavLink>
             <div className="nav-links">
-                <Link to="/departments">Departments</Link>
-                <Link to="/classes">Classes</Link>
-                <Link to="/students">Students</Link>
-                <Link to="/attendance">Mark Attendance</Link>
+                <NavLink to="/departments">Departments</NavLink>
+                <NavLink to="/classes">Classes</NavLink>
+                <NavLink to="/students">Students</NavLink>
+                <NavLink to="/attendance">Mark Attendance</NavLink>
             </div>
+            <ThemeToggle />
         </nav>
     );
 };

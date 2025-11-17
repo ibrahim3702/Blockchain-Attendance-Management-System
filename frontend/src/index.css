@@ -1,31 +1,112 @@
 @import "tailwindcss";
 
+/* Light theme (default) */
 :root {
-  --background-start: #071029;
-  --background-end: #071829;
-  --surface-color: rgba(255, 255, 255, 0.04);
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --primary-color: #0ea5a4;
-  /* teal */
-  --primary-2: #06b6d4;
-  --primary-hover: #0891b2;
-  --text-color: #e6f0f2;
-  --text-muted: #9fb3b6;
-  --border-color: rgba(255, 255, 255, 0.06);
-  --success-color: #34d399;
-  --danger-color: #fb7185;
-  --glass-blur: 8px;
+  color-scheme: light dark;
+  /* --- THEME: Royal Purple & Gold --- */
 
-  --block-genesis: #06b6d4;
-  --block-attendance: #34d399;
+  /* BACKGROUNDS */
+  --background-start: #f6f5ff;
+  /* light lavender */
+  --background-mid: rgba(255, 255, 255, 0.7);
+  --background-end: #ffffff;
+
+  /* SURFACES (Glass) */
+  --surface-color: rgba(255, 255, 255, 0.6);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --border-color: rgba(20, 16, 69, 0.08);
+  --glass-blur: 10px;
+
+  /* PRIMARY (Purple) */
+  --primary-color: #6c5ce7;
+  /* Amethyst */
+  --primary-2: #8e44ad;
+  /* Royal Purple */
+  --primary-hover: #5e54d4;
+
+  /* ACCENT (Gold - used for buttons) */
+  --accent-color: #f39c12;
+  /* Gold */
+  --accent-2: #f1c40f;
+  /* Brighter Gold */
+
+  /* TEXT */
+  --text-color: #1b1028;
+  /* Deep purple-black */
+  --text-muted: #6f6a86;
+  /* Grey-ish purple */
+
+  /* CONTROLS */
+  --input-bg: rgba(255, 255, 255, 0.9);
+
+  /* NOTIFICATIONS */
+  --success-color: #16a34a;
+  /* Emerald */
+  --danger-color: #dc2626;
+  /* Crimson */
+
+  /* BLOCKCHAIN COLORS */
+  --block-genesis: #6c5ce7;
+  /* Amethyst */
+  --block-attendance: #22c55e;
+  /* Emerald */
   --block-update: #f59e0b;
-  --block-delete: #fb7185;
-  --block-invalid: #7f1d1d;
+  /* Gold */
+  --block-delete: #ef4444;
+  /* Red */
+  --block-invalid: #b20000;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --background-start: #131127;
+  --background-mid: rgba(21, 31, 39, 0.6);
+  --background-end: #0B0A1A;
+  --surface-color: rgba(108, 92, 231, 0.06);
+  --card-bg: rgba(108, 92, 231, 0.05);
+  --border-color: rgba(108, 92, 231, 0.12);
+  --glass-blur: 10px;
+
+  --primary-color: #8e44ad;
+  --primary-2: #6c5ce7;
+  --primary-hover: #a569bd;
+
+  --accent-color: #f39c12;
+  --accent-2: #f1c40f;
+
+  --text-color: #F0E8FF;
+  --text-muted: #a4a0b6;
+
+  --input-bg: rgba(6, 12, 24, 0.65);
+
+  --success-color: #2ecc71;
+  --danger-color: #e74c3c;
+
+  --block-genesis: #6c5ce7;
+  --block-attendance: #2ecc71;
+  --block-update: #f39c12;
+  --block-delete: #e74c3c;
+  --block-invalid: #b20000;
 }
 
 /* Base */
 * {
   box-sizing: border-box
+}
+
+/* Auto-apply dark mode if preferred and no explicit theme set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background-start: #0F0C29;
+    --background-mid: rgba(6, 20, 30, 0.6);
+    --background-end: #0B0A1A;
+    --surface-color: rgba(108, 92, 231, 0.06);
+    --card-bg: rgba(108, 92, 231, 0.05);
+    --border-color: rgba(108, 92, 231, 0.12);
+    --text-color: #F0E8FF;
+    --text-muted: #a4a0b6;
+    --input-bg: rgba(6, 12, 24, 0.35);
+  }
 }
 
 body {
@@ -34,7 +115,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
-  background: linear-gradient(180deg, var(--background-start) 0%, rgba(6, 20, 30, 0.6) 40%, var(--background-end) 100%);
+  background: linear-gradient(180deg, var(--background-start) 0%, var(--background-mid) 40%, var(--background-end) 100%);
   background-attachment: fixed;
 }
 
@@ -98,7 +179,7 @@ button:disabled {
 
 /* Forms */
 .form-group {
-  margin-bottom: 14px
+  margin-bottom: 14px;
 }
 
 .form-group label {
@@ -113,11 +194,48 @@ input[type="search"],
 select,
 textarea {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
   border: 1px solid var(--border-color);
-  background: transparent;
-  color: var(--text-color)
+  background: var(--input-bg);
+  color: var(--text-color);
+  transition: box-shadow .12s ease, border-color .12s ease, background-color .2s ease;
+}
+
+/* Improve native select appearance and dropdown contrast */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
+/* Options within dropdown inherit theme colors (supported in modern browsers) */
+select option,
+select optgroup {
+  background-color: var(--background-start);
+  color: var(--text-color);
+}
+
+/* Hint browsers to render themed controls */
+[data-theme="dark"] select,
+[data-theme="dark"] input,
+[data-theme="dark"] textarea {
+  color-scheme: dark;
+}
+
+:root select,
+:root input,
+:root textarea {
+  color-scheme: light;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-2);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.25);
 }
 
 /* Table */
@@ -130,7 +248,7 @@ table {
 th,
 td {
   padding: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border-color);
   text-align: left
 }
 

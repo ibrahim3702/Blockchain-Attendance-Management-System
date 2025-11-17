@@ -1,0 +1,94 @@
+/* Create this new file for dashboard-specific styles */
+
+/* --- View Toggle Button Group --- */
+.view-toggle {
+    display: flex;
+    border-radius: 10px;
+    /* Match button radius */
+    overflow: hidden;
+    /* Clips the edges */
+    border: 1px solid var(--border-color);
+    background: var(--surface-color);
+}
+
+.view-toggle button {
+    /* Reset all button styles */
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+
+    /* Text */
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.view-toggle button:hover {
+    background: var(--surface-color);
+    color: var(--text-color);
+}
+
+.view-toggle button.active {
+    /* Use the primary purple gradient */
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-2));
+    color: var(--text-color);
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.2);
+}
+
+.view-toggle button:first-child {
+    border-right: 1px solid var(--border-color);
+}
+
+/* --- Dashboard Layout --- */
+.dashboard-section {
+    margin-bottom: 24px;
+}
+
+.glass-card {
+    /* A reusable card style */
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.015));
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(var(--glass-blur));
+    box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+}
+
+.section-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
+}
+
+.section-header h2 {
+    margin-bottom: 8px;
+}
+
+/* --- Validation Report --- */
+.validation-report h3 {
+    margin-bottom: 12px;
+}
+
+.validation-report .report-status {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.validation-report .report-status.valid {
+    color: var(--success-color);
+}
+
+.validation-report .report-status.invalid {
+    color: var(--danger-color);
+}
+
+.validation-report pre {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    max-height: 400px;
+}

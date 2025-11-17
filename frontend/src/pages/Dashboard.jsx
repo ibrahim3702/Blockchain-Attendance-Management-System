@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import api from '../services/api';
 import HierarchyExplorer from '../components/HierarchyExplorer';
-import Blockchain3D from '../components/Blockchain3D'; // IMPORT THIS
+import Blockchain3D from '../components/Blockchain3D';
+import './Dashboard.css'; // We'll create this new CSS file
 
 const Dashboard = () => {
     const [report, setReport] = useState(null);
@@ -23,20 +24,19 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="page-container">
+        <div className="page-container dashboard-page">
             <div className="page-header">
                 <h1>Dashboard</h1>
-                {/* View Toggle Button */}
-                <div>
+                {/* View Toggle Button Group */}
+                <div className="view-toggle">
                     <button
-                        className={viewMode === 'list' ? 'secondary' : ''}
+                        className={viewMode === '3D' ? 'active' : ''}
                         onClick={() => setViewMode('3D')}
-                        style={{ marginRight: '10px' }}
                     >
                         3D View
                     </button>
                     <button
-                        className={viewMode === '3D' ? 'secondary' : ''}
+                        className={viewMode === 'list' ? 'active' : ''}
                         onClick={() => setViewMode('list')}
                     >
                         List View
@@ -44,21 +44,44 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <p>Visualize the live blockchain network. Click on a node (Cube) to inspect its chain.</p>
+            {/* --- Visualization Section --- */}
+            <div className="dashboard-section glass-card">
+                <div className="section-header">
+                    <h2>Blockchain Hierarchy</h2>
+                    <p className="muted">
+                        Visualize the live blockchain network.
+                        {viewMode === '3D'
+                            ? " Click a node to inspect its chain."
+                            : " Expand nodes to see child chains."}
+                    </p>
+                </div>
+                {/* Conditional Rendering */}
+                {viewMode === '3D' ? <Blockchain3D /> : <HierarchyExplorer />}
+            </div>
 
-            {/* Conditional Rendering */}
-            {viewMode === '3D' ? <Blockchain3D /> : <HierarchyExplorer />}
-
-            <div style={{ marginTop: '30px' }}>
-                <h2>Chain Validation</h2>
-                <button onClick={handleValidate} disabled={isLoading}>
+            {/* --- Validation Section --- */}
+            <div className="dashboard-section glass-card">
+                <div className="section-header">
+                    <h2>Chain Validation</h2>
+                    <p className="muted">
+                        Run a multi-level validation to verify the integrity of all chains and parent-child links.
+                    </p>
+                </div>
+                <button
+                    onClick={handleValidate}
+                    disabled={isLoading}
+                    className="secondary"
+                    style={{ marginBottom: '20px' }}
+                >
                     {isLoading ? 'Validating...' : 'Validate All Chains'}
                 </button>
+
                 {error && <p style={{ color: 'var(--danger-color)' }}>{error}</p>}
+
                 {report && (
-                    <div style={{ marginTop: '20px' }}>
+                    <div className="validation-report">
                         <h3>Validation Report</h3>
-                        <p style={{ color: report.valid ? 'var(--success-color)' : 'var(--danger-color)', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                        <p className={`report-status ${report.valid ? 'valid' : 'invalid'}`}>
                             Overall Status: {report.valid ? '✔ VALID' : '✖ INVALID'}
                         </p>
                         <pre>{JSON.stringify(report, null, 2)}</pre>

@@ -1,13 +1,19 @@
+/* This CSS is updated to match your new theme */
+
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 22px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+
+    /* Glassmorphism from your theme */
+    background: var(--surface-color);
+    backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--border-color);
+
     border-radius: 12px;
     margin: 16px 24px 6px 24px;
-    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.5);
+    box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
 }
 
 .nav-brand {
@@ -17,6 +23,8 @@
     color: var(--text-color);
     text-decoration: none;
     padding: 6px 10px;
+
+    /* Updated to use your new theme's primary gradient */
     background: linear-gradient(90deg, var(--primary-color), var(--primary-2));
     -webkit-background-clip: text;
     background-clip: text;
@@ -26,7 +34,7 @@
 .nav-links {
     display: flex;
     gap: 14px;
-    align-items: center
+    align-items: center;
 }
 
 .nav-links a {
@@ -35,28 +43,36 @@
     padding: 8px 12px;
     border-radius: 8px;
     transition: all .12s ease;
-    font-weight: 600
+    font-weight: 600;
 }
 
 .nav-links a:hover {
     background: rgba(255, 255, 255, 0.02);
     color: var(--text-color);
-    transform: translateY(-2px)
+    transform: translateY(-2px);
 }
 
+/* This "active" class works automatically if you use <NavLink> */
 .nav-links a.active {
     background: linear-gradient(90deg, var(--primary-color), var(--primary-2));
-    color: #001;
-    box-shadow: 0 6px 14px rgba(6, 22, 33, 0.45)
+    color: #ffffff;
+    /* High contrast against the gradient */
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(6, 22, 33, 0.45);
 }
 
 @media(max-width:768px) {
     .navbar {
         padding: 10px 14px;
-        margin: 10px
+        margin: 10px;
     }
 
     .nav-brand {
-        font-size: 1rem
+        font-size: 1rem;
+    }
+
+    /* Your theme's global CSS already hides this, but good to have */
+    .nav-links {
+        display: none;
     }
 }
