@@ -28,17 +28,17 @@ Modern Full-Stack: Built with React (Frontend), Node.js/Express (Backend), and M
 
 Student Ledger
 
-[IMAGE PLACEHOLDER: 3D graph view with 'crystal' nodes](./screenshots/crystal.png)
+![3D graph view with 'crystal' nodes](./screenshots/crystal.png)
 
-[IMAGE PLACEHOLDER: Sidebar showing a student's blocks](./screenshots/sidebar.png)
+![Sidebar showing a student's blocks](./screenshots/sidebar.png)
 
 Management & CRUD
 
 Attendance Marking
 
-[IMAGE PLACEHOLDER: The 'Students' page with the table](./screenshots/student.png)
+![The 'Students' page with the table](./screenshots/student.png)
 
-[IMAGE PLACEHOLDER: The 'Mark Attendance' page](./screenshots/attendance.png)
+![The 'Mark Attendance' page](./screenshots/attendance.png)
 
 🏛️ Project Architecture
 
