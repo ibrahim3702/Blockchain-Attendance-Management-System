@@ -55,6 +55,7 @@ const Students = () => {
             const fetchStudents = async () => {
                 try {
                     const res = await api.getStudents(selectedClass);
+                    console.log(res.data);
                     setStudents(res.data);
                 } catch (err) { setError('Failed to load students'); }
                 setIsLoading(false);

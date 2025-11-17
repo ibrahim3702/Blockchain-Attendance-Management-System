@@ -5,14 +5,14 @@ const Block = require('../blockchain/Block');
 const uuid = (...args) => import("uuid").then(m => m.v4(...args));
 
 
-// Import Mongoose models (replaces all 'fs' and 'dataService' logic)
+
 const Department = require('../models/Department');
 const Class = require('../models/Class');
 const Student = require('../models/Student');
 
 const DIFFICULTY = '0000';
 
-// --- Mongoose Helper Functions ---
+
 
 /**
  * Gets the latest block from a chain in the DB
@@ -21,16 +21,16 @@ const DIFFICULTY = '0000';
  * @param {string} id - The ID of the document
  */
 async function _getLatestBlock(Model, idField, id) {
-    // Find the doc and return only the last element of the 'chain' array
+
     const doc = await Model.findOne(
         { [idField]: id },
-        { chain: { $slice: -1 } } // Efficiently get only the last block
+        { chain: { $slice: -1 } }
     );
 
     if (!doc || !doc.chain || doc.chain.length === 0) {
         return null;
     }
-    return doc.chain[0]; // $slice: -1 returns an array, get first element
+    return doc.chain[0];
 }
 
 /**
@@ -46,9 +46,9 @@ async function _addBlockToChain(Model, idField, id, transactions) {
 
     const newIndex = latestBlock.index + 1;
     const block = new Block(newIndex, transactions, new Date().toISOString(), latestBlock.hash);
-    block.mine(DIFFICULTY); // Proof of Work
+    block.mine(DIFFICULTY);
 
-    // Push the new block to the chain array
+
     await Model.updateOne(
         { [idField]: id },
         { $push: { chain: block } }
@@ -57,7 +57,7 @@ async function _addBlockToChain(Model, idField, id, transactions) {
     return block;
 }
 
-// --- Department APIs ---
+
 async function createDepartment(deptMeta) {
     const id = await uuid();
     const chain = new DepartmentChain(id, DIFFICULTY);
@@ -68,11 +68,11 @@ async function createDepartment(deptMeta) {
         name: deptMeta.name,
         status: 'active',
         createdAt: new Date(genesis.timestamp),
-        chain: chain.chain, // Save the whole chain (just genesis block)
+
     });
     await newDept.save();
 
-    // 'chainId' is a concept for the frontend, not the DB
+
     return { id, chainId: `dept-${id}` };
 }
 
@@ -80,14 +80,14 @@ async function updateDepartment(deptId, updateMeta) {
     const tx = { type: 'department_update', updateMeta };
     await _addBlockToChain(Department, 'deptId', deptId, [tx]);
 
-    // Update the query-friendly 'name' field
+
     await Department.updateOne({ deptId }, { name: updateMeta.name });
 
     return { id: deptId, name: updateMeta.name };
 }
 
 async function deleteDepartment(deptId) {
-    // Check for child classes
+
     const childClasses = await Class.countDocuments({ parentDeptId: deptId, status: 'active' });
     if (childClasses > 0) {
         throw new Error(`Cannot delete department. It has ${childClasses} active class(es).`);
@@ -96,24 +96,24 @@ async function deleteDepartment(deptId) {
     const tx = { type: 'department_delete', status: 'deleted' };
     await _addBlockToChain(Department, 'deptId', deptId, [tx]);
 
-    // Mark as deleted
+
     await Department.updateOne({ deptId }, { status: 'deleted' });
     return { id: deptId, status: 'deleted' };
 }
 
 async function listDepartments() {
-    // Find all active depts, but don't return the 'chain' field to keep it light
+
     const depts = await Department.find({ status: 'active' }, { chain: 0 }).lean();
 
-    // Get class counts
+
     for (const dept of depts) {
         dept.classCount = await Class.countDocuments({ parentDeptId: dept.deptId, status: 'active' });
     }
-    // Map DB fields to frontend-expected fields
+
     return depts.map(d => ({ ...d, id: d.deptId, chainId: `dept-${d.deptId}` }));
 }
 
-// --- Class APIs ---
+
 async function createClass(classMeta, parentDeptId) {
     const parentLatestBlock = await _getLatestBlock(Department, 'deptId', parentDeptId);
     if (!parentLatestBlock) throw new Error('Parent department chain is empty or not found');
@@ -169,7 +169,7 @@ async function listClasses(parentDeptId) {
     return classes.map(c => ({ ...c, id: c.classId, chainId: `class-${c.classId}` }));
 }
 
-// --- Student APIs ---
+
 async function createStudent(studentMeta, parentClassId) {
     const parentLatestBlock = await _getLatestBlock(Class, 'classId', parentClassId);
     if (!parentLatestBlock) throw new Error('Parent class chain is empty or not found');
@@ -196,7 +196,7 @@ async function createStudent(studentMeta, parentClassId) {
 async function updateStudent(studentId, updateMeta) {
     const tx = { type: 'student_update', updateMeta };
     await _addBlockToChain(Student, 'studentId', studentId, [tx]);
-    await Student.updateOne({ studentId }, { ...updateMeta }); // Update top-level fields
+    await Student.updateOne({ studentId }, { ...updateMeta });
     return { id: studentId, ...updateMeta };
 }
 
@@ -217,7 +217,7 @@ async function listStudents(parentClassId) {
     return students.map(s => ({ ...s, id: s.studentId, chainId: `student-${s.studentId}` }));
 }
 
-// --- Attendance APIs ---
+
 async function markAttendance(studentId, attData) {
     const stu = await Student.findOne({ studentId }, { parentClassId: 1 }).lean();
     if (!stu) throw new Error('Student not found');
@@ -233,26 +233,36 @@ async function markAttendance(studentId, attData) {
     return block;
 }
 
-// --- Chain Data API ---
-async function getChain(chainId) {
-    // chainId is a string like "dept-uuid", "class-uuid", or "student-uuid"
-    const [type, id] = chainId.split('-');
 
-    let doc;
+async function getChain(chainId) {
+
+    if (typeof chainId !== 'string') return null;
+
+    const dashIdx = chainId.indexOf('-');
+    if (dashIdx <= 0) return null;
+
+    const type = chainId.slice(0, dashIdx);
+    const id = chainId.slice(dashIdx + 1);
+
+    if (!id) return null;
+
+    let doc = null;
     if (type === 'dept') {
         doc = await Department.findOne({ deptId: id }, { chain: 1 }).lean();
     } else if (type === 'class') {
         doc = await Class.findOne({ classId: id }, { chain: 1 }).lean();
     } else if (type === 'student') {
         doc = await Student.findOne({ studentId: id }, { chain: 1 }).lean();
+    } else {
+        return null;
     }
 
     return doc ? doc.chain : null;
 }
 
-// --- Search APIs ---
+
 async function findStudent(query) {
-    const q = new RegExp(query, 'i'); // Case-insensitive regex
+    const q = new RegExp(query, 'i');
     const students = await Student.find(
         { status: 'active', $or: [{ name: q }, { rollNo: q }] },
         { chain: 0 }
@@ -261,7 +271,7 @@ async function findStudent(query) {
     return students.map(s => ({ ...s, id: s.studentId, chainId: `student-${s.studentId}` }));
 }
 
-// --- Expose functions for Validation Service ---
+
 async function _getAllDocsForValidation() {
     const depts = await Department.find({}, { deptId: 1, chain: 1 }).lean();
     const classes = await Class.find({}, { classId: 1, parentDeptId: 1, chain: 1 }).lean();
@@ -276,9 +286,9 @@ module.exports = {
     markAttendance,
     getChain,
     findStudent,
-    _getAllDocsForValidation, // For validation
-    _getLatestBlock, // For validation
-    Department, // For validation
-    Class, // For validation
-    Student, // For validation
+    _getAllDocsForValidation,
+    _getLatestBlock,
+    Department,
+    Class,
+    Student,
 };

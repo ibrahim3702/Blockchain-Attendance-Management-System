@@ -1,4 +1,4 @@
-// backend/models/Class.js
+
 const mongoose = require('mongoose');
 const BlockSchema = require('./BlockSchema');
 

@@ -1,9 +1,9 @@
-// backend/utils/db.js
+
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
     if (mongoose.connection.readyState >= 1) {
-        // Already connected
+
         return;
     }
     try {

@@ -2,7 +2,7 @@ const chainService = require('../services/chainService');
 
 exports.createClass = async (req, res) => {
     try {
-        // parentDeptId must be in the body
+
         const { parentDeptId, ...classMeta } = req.body;
         if (!parentDeptId) return res.status(400).json({ error: 'parentDeptId is required' });
 
@@ -33,7 +33,7 @@ exports.deleteClass = async (req, res) => {
 
 exports.getAllClasses = async (req, res) => {
     try {
-        // Optionally filter by department: /api/classes?deptId=...
+
         const classes = await chainService.listClasses(req.query.deptId);
         res.status(200).json(classes);
     } catch (err) {

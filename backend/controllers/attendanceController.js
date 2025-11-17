@@ -16,4 +16,3 @@ exports.markAttendance = async (req, res) => {
     }
 };
 
-// Note: Getting attendance for a student is handled by studentController.getStudentChain

@@ -32,7 +32,6 @@ exports.deleteStudent = async (req, res) => {
 
 exports.getAllStudents = async (req, res) => {
     try {
-        // Optionally filter by class: /api/students?classId=...
         const students = await chainService.listStudents(req.query.classId);
         res.status(200).json(students);
     } catch (err) {

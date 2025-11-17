@@ -3,14 +3,7 @@ const chainService = require('./chainService');
 
 const DIFFICULTY = '0000';
 
-/**
- * Validates a single chain's integrity.
- * Checks:
- * 1. Genesis block's prev_hash matches the expected parent hash.
- * 2. All subsequent block prev_hashes match the previous block's hash.
- * 3. All block hashes are valid (re-computed).
- * 4. All blocks satisfy the Proof of Work difficulty.
- */
+
 function _validateChain(chainArray, expectedGenesisPrevHash) {
     if (!chainArray || chainArray.length === 0) {
         return { valid: false, reason: 'Chain is empty' };
@@ -32,8 +25,7 @@ function _validateChain(chainArray, expectedGenesisPrevHash) {
 
         if (i === 0) {
             if (blockData.prev_hash !== expectedGenesisPrevHash) {
-                // This check is now only for internal consistency,
-                // confirming the genesis hash is what we expect.
+
                 return { valid: false, blockIndex: 0, reason: 'Genesis block prev_hash mismatch' };
             }
         } else {
@@ -45,9 +37,7 @@ function _validateChain(chainArray, expectedGenesisPrevHash) {
     return { valid: true };
 }
 
-/**
- * Validates all chains in the hierarchy.
- */
+
 async function validateAllChains() {
     const report = {
         valid: true,
@@ -55,14 +45,13 @@ async function validateAllChains() {
         summary: { totalInvalid: 0 }
     };
 
-    // Get all data from the DB at once
     const { depts, classes, students } = await chainService._getAllDocsForValidation();
 
     for (const dept of depts) {
         const deptReport = { id: dept.deptId, chainId: `dept-${dept.deptId}`, valid: true, classes: [] };
         const deptChain = dept.chain;
 
-        // 1. Validate Department Chain
+
         const deptValidation = _validateChain(deptChain, '0');
         if (!deptValidation.valid) {
             deptReport.valid = false;
@@ -87,7 +76,7 @@ async function validateAllChains() {
                 continue;
             }
 
-            // 2. Validate Class Chain
+
             const classGenesisPrevHash = classChain[0].prev_hash;
             if (!deptHashes.has(classGenesisPrevHash)) {
                 classReport.valid = false;

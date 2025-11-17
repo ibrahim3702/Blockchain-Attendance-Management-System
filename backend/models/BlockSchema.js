@@ -1,4 +1,4 @@
-// backend/models/BlockSchema.js
+
 const mongoose = require('mongoose');
 
 const BlockSchema = new mongoose.Schema({

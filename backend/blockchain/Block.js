@@ -4,7 +4,7 @@ const crypto = require('crypto');
 class Block {
     constructor(index, transactions, timestamp, prev_hash = '') {
         this.index = index;
-        this.transactions = transactions; // array / payload
+        this.transactions = transactions;
         this.timestamp = timestamp || new Date().toISOString();
         this.prev_hash = prev_hash;
         this.nonce = 0;

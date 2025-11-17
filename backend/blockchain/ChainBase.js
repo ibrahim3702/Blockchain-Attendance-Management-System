@@ -3,7 +3,7 @@ const Block = require('./Block');
 
 class ChainBase {
     constructor(chainId, difficultyPrefix = '0000') {
-        this.chainId = chainId; // unique id for the chain (dept:deptId, class:classId, student:studentId)
+        this.chainId = chainId;
         this.difficultyPrefix = difficultyPrefix;
         this.chain = [];
     }

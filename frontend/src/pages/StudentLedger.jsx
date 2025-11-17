@@ -6,7 +6,7 @@ import BlockchainExplorer from '../components/BlockchainExplorer';
 const StudentLedger = () => {
     const { chainId } = useParams();
     const [chain, setChain] = useState(null);
-    const [student, setStudent] = useState(null); // Optional: fetch student details
+    const [student, setStudent] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -15,11 +15,12 @@ const StudentLedger = () => {
             const fetchLedger = async () => {
                 setIsLoading(true);
                 try {
-                    // Fetch the chain
+
                     const res = await api.getStudentChain(chainId);
+                    console.log(res);
                     setChain(res.data);
 
-                    // Optional: find student info from genesis block
+
                     if (res.data && res.data.length > 0) {
                         const genesisTx = res.data[0].transactions[0];
                         if (genesisTx.type === 'student_genesis') {

@@ -16,7 +16,7 @@ class StudentChain extends ChainBase {
 
 
     addAttendance(attTx) {
-        // attTx must include: studentId, deptId, classId, status, timestamp
+
         return this.addBlock([attTx]);
     }
 }
