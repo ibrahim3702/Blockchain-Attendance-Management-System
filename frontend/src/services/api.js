@@ -35,6 +35,7 @@ export const getStudentChain = (chainId) => api.get(`/students/${chainId}/chain`
 
 export const markAttendance = (data) => api.post('/attendance', data);
 
+export const getStats = () => api.get('/stats');
 
 const apiService = {
     validateChains,
@@ -55,6 +56,7 @@ const apiService = {
     deleteStudent,
     getStudentChain,
     markAttendance,
+    getStats,
     getHierarchyTree
 };
 

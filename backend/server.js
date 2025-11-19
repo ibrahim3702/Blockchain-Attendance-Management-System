@@ -7,6 +7,7 @@ const deptsRoutes = require('./routes/depts');
 const classesRoutes = require('./routes/classes');
 const studentsRoutes = require('./routes/students');
 const attendanceRoutes = require('./routes/attendance');
+const statsRoutes = require('./routes/stats');
 const validationService = require('./services/validationService');
 const hierarchyRoutes = require('./routes/hierarchy');
 const connectDB = require('./utils/db');
@@ -18,6 +19,7 @@ app.use('/api/departments', deptsRoutes);
 app.use('/api/classes', classesRoutes);
 app.use('/api/students', studentsRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/stats', statsRoutes);
 app.use('/api/hierarchy', hierarchyRoutes);
 // Validation endpoint
 app.get('/api/validate-all', async (req, res) => {

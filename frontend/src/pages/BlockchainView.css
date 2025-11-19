@@ -1,0 +1,9 @@
+/* BlockchainView.css - Styles for blockchain visualization page */
+
+.blockchain-view-page .section-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* View toggle is already styled globally in Dashboard.css */

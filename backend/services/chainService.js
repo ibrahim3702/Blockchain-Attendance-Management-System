@@ -279,6 +279,102 @@ async function _getAllDocsForValidation() {
     return { depts, classes, students };
 }
 
+// --- System Statistics ---
+async function getSystemStats() {
+    // Entity counts
+    const departmentCount = await Department.countDocuments({ status: 'active' });
+    const classCount = await Class.countDocuments({ status: 'active' });
+    const studentCount = await Student.countDocuments({ status: 'active' });
+
+    // Blockchain metrics
+    const allDepts = await Department.find({}).lean();
+    const allClasses = await Class.find({}).lean();
+    const allStudents = await Student.find({}).lean();
+
+    let totalBlocks = 0;
+    let totalChainLength = 0;
+    let chainCount = 0;
+
+    // Count blocks in all chains
+    allDepts.forEach(dept => {
+        if (dept.chain && dept.chain.length > 0) {
+            totalBlocks += dept.chain.length;
+            totalChainLength += dept.chain.length;
+            chainCount++;
+        }
+    });
+
+    allClasses.forEach(cls => {
+        if (cls.chain && cls.chain.length > 0) {
+            totalBlocks += cls.chain.length;
+            totalChainLength += cls.chain.length;
+            chainCount++;
+        }
+    });
+
+    allStudents.forEach(stu => {
+        if (stu.chain && stu.chain.length > 0) {
+            totalBlocks += stu.chain.length;
+            totalChainLength += stu.chain.length;
+            chainCount++;
+        }
+    });
+
+    const avgChainLength = chainCount > 0 ? totalChainLength / chainCount : 0;
+
+    // Attendance statistics
+    let totalAttendance = 0;
+    let presentCount = 0;
+    let absentCount = 0;
+    let leaveCount = 0;
+
+    allStudents.forEach(stu => {
+        if (stu.chain && stu.chain.length > 0) {
+            stu.chain.forEach(block => {
+                if (block.transactions && block.transactions.length > 0) {
+                    block.transactions.forEach(tx => {
+                        if (tx.type === 'attendance_mark') {
+                            totalAttendance++;
+                            if (tx.status === 'Present') presentCount++;
+                            else if (tx.status === 'Absent') absentCount++;
+                            else if (tx.status === 'Leave') leaveCount++;
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    const presentPercentage = totalAttendance > 0 ? (presentCount / totalAttendance) * 100 : 0;
+    const absentPercentage = totalAttendance > 0 ? (absentCount / totalAttendance) * 100 : 0;
+    const leavePercentage = totalAttendance > 0 ? (leaveCount / totalAttendance) * 100 : 0;
+
+    return {
+        entities: {
+            departments: departmentCount,
+            classes: classCount,
+            students: studentCount,
+        },
+        blockchain: {
+            totalBlocks,
+            departmentChains: allDepts.length,
+            classChains: allClasses.length,
+            studentChains: allStudents.length,
+            avgChainLength,
+            difficulty: DIFFICULTY,
+        },
+        attendance: {
+            totalRecords: totalAttendance,
+            present: presentCount,
+            absent: absentCount,
+            leave: leaveCount,
+            presentPercentage,
+            absentPercentage,
+            leavePercentage,
+        },
+    };
+}
+
 module.exports = {
     createDepartment, updateDepartment, deleteDepartment, listDepartments,
     createClass, updateClass, deleteClass, listClasses,
@@ -286,6 +382,7 @@ module.exports = {
     markAttendance,
     getChain,
     findStudent,
+    getSystemStats,
     _getAllDocsForValidation,
     _getLatestBlock,
     Department,

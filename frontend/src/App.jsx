@@ -7,6 +7,8 @@ import Classes from './pages/Classes';
 import Students from './pages/Students';
 import Attendance from './pages/Attendance';
 import StudentLedger from './pages/StudentLedger';
+import Stats from './pages/Stats';
+import BlockchainView from './pages/BlockchainView';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/classes" element={<Classes />} />
         <Route path="/students" element={<Students />} />
         <Route path="/attendance" element={<Attendance />} />
+        <Route path="/stats" element={<Stats />} />
+        <Route path="/blockchain-view" element={<BlockchainView />} />
         <Route path="/student-ledger/:chainId" element={<StudentLedger />} />
       </Routes>
     </Router>
