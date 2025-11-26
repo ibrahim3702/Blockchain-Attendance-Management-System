@@ -21,23 +21,23 @@ async function repairDepartmentChain(deptId) {
 
     // Create a new chain with genesis block
     const chain = new DepartmentChain(deptId, DIFFICULTY);
-    const genesis = chain.createGenesis({ 
-        id: deptId, 
+    const genesis = chain.createGenesis({
+        id: deptId,
         name: dept.name,
-        status: dept.status 
+        status: dept.status
     });
 
     // Update the department with the new chain
     await chainService.Department.updateOne(
         { deptId },
-        { 
+        {
             chain: chain.chain,
             createdAt: new Date(genesis.timestamp)
         }
     );
 
-    return { 
-        message: 'Department chain repaired successfully', 
+    return {
+        message: 'Department chain repaired successfully',
         repaired: true,
         deptId,
         chainLength: chain.chain.length
@@ -66,7 +66,7 @@ async function repairClassChain(classId) {
 
     // Create a new chain with genesis block
     const chain = new ClassChain(classId, parentHash, DIFFICULTY);
-    const genesis = chain.createGenesis({ 
+    const genesis = chain.createGenesis({
         id: classId,
         parentDeptId: cls.parentDeptId,
         name: cls.name,
@@ -75,14 +75,14 @@ async function repairClassChain(classId) {
 
     await chainService.Class.updateOne(
         { classId },
-        { 
+        {
             chain: chain.chain,
             createdAt: new Date(genesis.timestamp)
         }
     );
 
-    return { 
-        message: 'Class chain repaired successfully', 
+    return {
+        message: 'Class chain repaired successfully',
         repaired: true,
         classId,
         chainLength: chain.chain.length
@@ -111,7 +111,7 @@ async function repairStudentChain(studentId) {
 
     // Create a new chain with genesis block
     const chain = new StudentChain(studentId, parentHash, DIFFICULTY);
-    const genesis = chain.createGenesis({ 
+    const genesis = chain.createGenesis({
         id: studentId,
         parentClassId: student.parentClassId,
         name: student.name,
@@ -121,14 +121,14 @@ async function repairStudentChain(studentId) {
 
     await chainService.Student.updateOne(
         { studentId },
-        { 
+        {
             chain: chain.chain,
             createdAt: new Date(genesis.timestamp)
         }
     );
 
-    return { 
-        message: 'Student chain repaired successfully', 
+    return {
+        message: 'Student chain repaired successfully',
         repaired: true,
         studentId,
         chainLength: chain.chain.length
