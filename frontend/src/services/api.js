@@ -6,6 +6,8 @@ console.log('Using API URL:', API_URL);
 const api = axios.create({ baseURL: API_URL });
 
 export const validateChains = () => api.get('/validate-all');
+export const repairAllChains = () => api.post('/repair/all');
+export const repairDepartmentChain = (deptId) => api.post(`/repair/department/${deptId}`);
 export const getHierarchyTree = () => api.get('/hierarchy/tree');
 export const getDepts = () => api.get('/departments');
 export const createDept = (data) => api.post('/departments', data);
@@ -39,6 +41,8 @@ export const getStats = () => api.get('/stats');
 
 const apiService = {
     validateChains,
+    repairAllChains,
+    repairDepartmentChain,
     getDepts,
     createDept,
     updateDept,

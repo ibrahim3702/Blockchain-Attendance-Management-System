@@ -9,6 +9,7 @@ const studentsRoutes = require('./routes/students');
 const attendanceRoutes = require('./routes/attendance');
 const statsRoutes = require('./routes/stats');
 const validationService = require('./services/validationService');
+const repairService = require('./services/repairService');
 const hierarchyRoutes = require('./routes/hierarchy');
 const connectDB = require('./utils/db');
 const app = express();
@@ -26,6 +27,23 @@ app.get('/api/validate-all', async (req, res) => {
     try {
         const report = await validationService.validateAllChains();
         res.json(report);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+// Repair endpoints
+app.post('/api/repair/all', async (req, res) => {
+    try {
+        const results = await repairService.repairAllChains();
+        res.json(results);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+app.post('/api/repair/department/:deptId', async (req, res) => {
+    try {
+        const result = await repairService.repairDepartmentChain(req.params.deptId);
+        res.json(result);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

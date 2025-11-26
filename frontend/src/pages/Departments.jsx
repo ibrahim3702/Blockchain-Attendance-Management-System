@@ -7,10 +7,12 @@ const Departments = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // Form state
     const [showModal, setShowModal] = useState(false);
     const [currentDept, setCurrentDept] = useState(null); // for editing
     const [formData, setFormData] = useState({ name: '' });
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deptToDelete, setDeptToDelete] = useState(null);
 
     const fetchDepartments = async () => {
         setIsLoading(true);
@@ -60,15 +62,29 @@ const Departments = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm('Are you sure? This is irreversible and will be recorded on the blockchain.')) {
-            try {
-                await api.deleteDept(id);
-                fetchDepartments(); // Refresh list
-            } catch (err) {
-                setError('Failed to delete department');
-            }
+    const handleDeleteClick = (dept) => {
+        setDeptToDelete(dept);
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (!deptToDelete) return;
+
+        try {
+            await api.deleteDept(deptToDelete.id);
+            setShowDeleteModal(false);
+            setDeptToDelete(null);
+            fetchDepartments();
+        } catch (err) {
+            setError('Failed to delete department');
+            setShowDeleteModal(false);
+            setDeptToDelete(null);
         }
+    };
+
+    const handleDeleteCancel = () => {
+        setShowDeleteModal(false);
+        setDeptToDelete(null);
     };
 
     return (
@@ -103,10 +119,9 @@ const Departments = () => {
                             <td className="actions">
                                 <button className="secondary" onClick={() => handleOpenModal(dept)}>Edit</button>
 
-                                {/* --- MODIFY THIS BUTTON --- */}
                                 <button
                                     className="danger"
-                                    onClick={() => handleDelete(dept.id)}
+                                    onClick={() => handleDeleteClick(dept)}
                                     disabled={dept.classCount > 0}
                                     title={
                                         dept.classCount > 0
@@ -116,7 +131,6 @@ const Departments = () => {
                                 >
                                     Delete
                                 </button>
-                                {/* --- END MODIFICATION --- */}
 
                             </td>
                         </tr>
@@ -139,6 +153,24 @@ const Departments = () => {
                     </div>
                     <button type="submit">Save Department</button>
                 </form>
+            </Modal>
+
+            {/* Delete Confirmation Modal */}
+            <Modal title="Confirm Deletion" show={showDeleteModal} onClose={handleDeleteCancel}>
+                <div style={{ marginBottom: '20px' }}>
+                    <p>Are you sure you want to delete the department <strong>{deptToDelete?.name}</strong>?</p>
+                    <p style={{ color: 'var(--danger-color)', fontSize: '1.2rem' }}>
+                        ⚠️ This action is irreversible and will be permanently recorded on the blockchain.
+                    </p>
+                </div>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                    <button type="button" className="secondary" onClick={handleDeleteCancel}>
+                        Cancel
+                    </button>
+                    <button type="button" className="danger" onClick={handleDeleteConfirm}>
+                        Delete Department
+                    </button>
+                </div>
             </Modal>
         </div>
     );

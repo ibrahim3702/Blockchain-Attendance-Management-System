@@ -22,6 +22,10 @@ const Students = () => {
     const [currentStudent, setCurrentStudent] = useState(null);
     const [formData, setFormData] = useState({ name: '', rollNo: '' });
 
+    // Delete confirmation state
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [studentToDelete, setStudentToDelete] = useState(null);
+
     // Load departments on mount
     useEffect(() => {
         const fetchDepts = async () => {
@@ -120,17 +124,31 @@ const Students = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm('Are you sure? This will be recorded on the blockchain.')) {
-            try {
-                await api.deleteStudent(id);
-                // Refresh list
-                const res = await api.getStudents(selectedClass);
-                setStudents(res.data);
-            } catch (err) {
-                setError('Failed to delete student');
-            }
+    const handleDeleteClick = (student) => {
+        setStudentToDelete(student);
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (!studentToDelete) return;
+
+        try {
+            await api.deleteStudent(studentToDelete.id);
+            setShowDeleteModal(false);
+            setStudentToDelete(null);
+            // Refresh list
+            const res = await api.getStudents(selectedClass);
+            setStudents(res.data);
+        } catch (err) {
+            setError('Failed to delete student');
+            setShowDeleteModal(false);
+            setStudentToDelete(null);
         }
+    };
+
+    const handleDeleteCancel = () => {
+        setShowDeleteModal(false);
+        setStudentToDelete(null);
     };
 
     return (
@@ -199,7 +217,7 @@ const Students = () => {
                                     <button className="secondary">View Ledger</button>
                                 </Link>
                                 <button className="secondary" onClick={() => handleOpenModal(stu)}>Edit</button>
-                                <button className="danger" onClick={() => handleDelete(stu.id)}>Delete</button>
+                                <button className="danger" onClick={() => handleDeleteClick(stu)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -218,6 +236,24 @@ const Students = () => {
                     </div>
                     <button type="submit">Save Student</button>
                 </form>
+            </Modal>
+
+            {/* Delete Confirmation Modal */}
+            <Modal title="Confirm Deletion" show={showDeleteModal} onClose={handleDeleteCancel}>
+                <div style={{ marginBottom: '20px' }}>
+                    <p>Are you sure you want to delete the student <strong>{studentToDelete?.name}</strong> (Roll No: {studentToDelete?.rollNo})?</p>
+                    <p style={{ color: 'var(--danger-color)', fontSize: '1.2rem' }}>
+                        ⚠️ This action is irreversible and will be permanently recorded on the blockchain.
+                    </p>
+                </div>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                    <button type="button" className="secondary" onClick={handleDeleteCancel}>
+                        Cancel
+                    </button>
+                    <button type="button" className="danger" onClick={handleDeleteConfirm}>
+                        Delete Student
+                    </button>
+                </div>
             </Modal>
         </div>
     );

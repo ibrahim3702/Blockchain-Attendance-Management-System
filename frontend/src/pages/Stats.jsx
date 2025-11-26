@@ -200,20 +200,6 @@ const Stats = () => {
                         <div className={`validation-status ${validationReport.valid ? 'valid' : 'invalid'}`}>
                             {validationReport.valid ? '✅ All chains are valid' : '❌ Validation errors detected'}
                         </div>
-                        <div className="validation-details">
-                            <div className="detail-row">
-                                <span>Total Chains Checked:</span>
-                                <span>{validationReport.totalChains || 0}</span>
-                            </div>
-                            <div className="detail-row">
-                                <span>Valid Chains:</span>
-                                <span className="success">{validationReport.validChains || 0}</span>
-                            </div>
-                            <div className="detail-row">
-                                <span>Invalid Chains:</span>
-                                <span className="danger">{validationReport.invalidChains || 0}</span>
-                            </div>
-                        </div>
                         {validationReport.errors && validationReport.errors.length > 0 && (
                             <details className="validation-errors">
                                 <summary>View Errors ({validationReport.errors.length})</summary>

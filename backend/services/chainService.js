@@ -21,19 +21,25 @@ const DIFFICULTY = '0000';
  * @param {string} id - The ID of the document
  */
 async function _getLatestBlock(Model, idField, id) {
-
-    const doc = await Model.findOne(
+    // First try with $slice to get just the last block (efficient)
+    let doc = await Model.findOne(
         { [idField]: id },
         { chain: { $slice: -1 } }
     );
 
+    // If the sliced query returns empty chain, try getting the full document
+    if (doc && doc.chain && doc.chain.length === 0) {
+        doc = await Model.findOne({ [idField]: id });
+    }
+
     if (!doc || !doc.chain || doc.chain.length === 0) {
         return null;
     }
-    return doc.chain[0];
-}
 
-/**
+    // Get the last block from the chain
+    const latestBlock = doc.chain[doc.chain.length - 1];
+    return latestBlock;
+}/**
  * Appends a new block to a chain in the DB
  * @param {mongoose.Model} Model - Department, Class, or Student
  * @param {string} idField - 'deptId', 'classId', or 'studentId'
@@ -48,7 +54,6 @@ async function _addBlockToChain(Model, idField, id, transactions) {
     const block = new Block(newIndex, transactions, new Date().toISOString(), latestBlock.hash);
     block.mine(DIFFICULTY);
 
-
     await Model.updateOne(
         { [idField]: id },
         { $push: { chain: block } }
@@ -56,8 +61,6 @@ async function _addBlockToChain(Model, idField, id, transactions) {
 
     return block;
 }
-
-
 async function createDepartment(deptMeta) {
     const id = await uuid();
     const chain = new DepartmentChain(id, DIFFICULTY);
@@ -68,10 +71,9 @@ async function createDepartment(deptMeta) {
         name: deptMeta.name,
         status: 'active',
         createdAt: new Date(genesis.timestamp),
-
+        chain: chain.chain,
     });
     await newDept.save();
-
 
     return { id, chainId: `dept-${id}` };
 }
@@ -88,20 +90,30 @@ async function updateDepartment(deptId, updateMeta) {
 
 async function deleteDepartment(deptId) {
 
+    // Check if department exists
+    const dept = await Department.findOne({ deptId });
+    if (!dept) {
+        throw new Error(`Department with ID ${deptId} not found.`);
+    }
+
+    // Check for child classes
     const childClasses = await Class.countDocuments({ parentDeptId: deptId, status: 'active' });
     if (childClasses > 0) {
         throw new Error(`Cannot delete department. It has ${childClasses} active class(es).`);
     }
 
-    const tx = { type: 'department_delete', status: 'deleted' };
-    await _addBlockToChain(Department, 'deptId', deptId, [tx]);
+    // Add deletion block to chain (only if chain exists and has blocks)
+    if (dept.chain && dept.chain.length > 0) {
+        const tx = { type: 'department_delete', status: 'deleted' };
+        await _addBlockToChain(Department, 'deptId', deptId, [tx]);
+    } else {
+        console.log('Warning: Department has no chain (corrupted data), skipping blockchain record');
+    }
 
-
+    // Mark as deleted
     await Department.updateOne({ deptId }, { status: 'deleted' });
     return { id: deptId, status: 'deleted' };
-}
-
-async function listDepartments() {
+} async function listDepartments() {
 
     const depts = await Department.find({ status: 'active' }, { chain: 0 }).lean();
 
