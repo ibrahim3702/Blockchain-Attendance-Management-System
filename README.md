@@ -190,3 +190,233 @@ const API_URL = '[https://bams-backend.onrender.com/api](https://bams-backend.on
 Commit and push this change.
 
 Deploy. Your frontend will be live on Vercel and fully connected to your backend on Render.
+
+---
+
+## 🐳 Docker Containerization
+
+### Tools & Technologies
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, Vite, Tailwind CSS, Nginx (Alpine) |
+| Backend | Node.js 18, Express.js |
+| Database | MongoDB 7 |
+| Containerization | Docker, Docker Compose |
+| Orchestration | Kubernetes (Minikube) |
+
+### Application Architecture (Containerized)
+
+```
+┌─────────────────────────────────────────────┐
+│              Host / Browser                  │
+└───────────────────┬─────────────────────────┘
+                    │ :3000
+        ┌───────────▼───────────┐
+        │   Frontend (Nginx)    │  port 80
+        │   React SPA           │
+        │   /api/* → backend    │
+        └───────────┬───────────┘
+                    │ :4000 (internal)
+        ┌───────────▼───────────┐
+        │   Backend (Node.js)   │  port 4000
+        │   Express REST API    │
+        └───────────┬───────────┘
+                    │ :27017 (internal)
+        ┌───────────▼───────────┐
+        │   MongoDB             │  port 27017
+        │   Persistent Volume   │
+        └───────────────────────┘
+```
+
+All three containers share a Docker bridge network (`bams-network`), allowing them to reach each other by service name.
+
+---
+
+## 🐳 Docker Build & Run Instructions
+
+### Prerequisites
+- Docker installed and running
+
+### Build Images
+
+```bash
+# Build backend image
+docker build -t bams-backend ./backend
+
+# Build frontend image
+docker build -t bams-frontend ./frontend
+```
+
+### Run Containers Individually
+
+```bash
+# Start MongoDB
+docker run -d --name mongo -p 27017:27017 mongo:7
+
+# Start Backend
+docker run -d --name backend -p 4000:4000 \
+  -e MONGODB_URI=mongodb://host.docker.internal:27017/bams \
+  bams-backend
+
+# Start Frontend
+docker run -d --name frontend -p 3000:80 bams-frontend
+```
+
+### Verify
+
+```bash
+# Check running containers
+docker ps
+
+# Test backend
+curl http://localhost:4000
+
+# Open frontend in browser
+open http://localhost:3000
+```
+
+---
+
+## 🐙 Docker Compose Setup
+
+Docker Compose runs all three services together on a shared network with a single command.
+
+### Start All Services
+
+```bash
+# Build images and start all containers
+docker-compose up --build
+
+# Run in background
+docker-compose up --build -d
+```
+
+### Stop All Services
+
+```bash
+docker-compose down
+```
+
+### Services
+
+| Service | Image | Host Port | Container Port |
+|---|---|---|---|
+| frontend | built from ./frontend | 3000 | 80 |
+| backend | built from ./backend | 4000 | 4000 |
+| mongo | mongo:7 | 27017 | 27017 |
+
+### Environment Variables
+
+| Variable | Service | Value |
+|---|---|---|
+| `MONGODB_URI` | backend | `mongodb://mongo:27017/bams` |
+| `PORT` | backend | `4000` |
+| `VITE_API_URL` | frontend (build arg) | `/api` |
+
+---
+
+## ☸️ Kubernetes Deployment
+
+### Prerequisites
+
+```bash
+# Install kubectl
+sudo snap install kubectl --classic
+
+# Install and start minikube
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+minikube start --driver=docker
+```
+
+### Load Local Images into Minikube
+
+```bash
+minikube image load blockchain-attendance-management-system_backend:latest
+minikube image load blockchain-attendance-management-system_frontend:latest
+```
+
+### Deploy All Resources
+
+```bash
+# Apply in order
+kubectl apply -f k8s/mongo-pv-pvc.yaml
+kubectl apply -f k8s/mongo-deployment.yaml
+kubectl apply -f k8s/backend-deployment.yaml
+kubectl apply -f k8s/frontend-deployment.yaml
+kubectl apply -f k8s/hpa.yaml
+```
+
+### Kubernetes Files
+
+| File | Description |
+|---|---|
+| `k8s/backend-deployment.yaml` | Backend Deployment (3 replicas) + ClusterIP Service |
+| `k8s/frontend-deployment.yaml` | Frontend Deployment (3 replicas) + NodePort Service |
+| `k8s/mongo-deployment.yaml` | MongoDB Deployment + ClusterIP Service |
+| `k8s/mongo-pv-pvc.yaml` | PersistentVolume + PersistentVolumeClaim (2Gi) |
+| `k8s/hpa.yaml` | HorizontalPodAutoscaler for frontend & backend |
+
+### Verify Deployment
+
+```bash
+kubectl get deployments
+kubectl get pods
+kubectl get services
+kubectl get pv,pvc
+kubectl get hpa
+```
+
+### Access the Application
+
+```bash
+minikube service frontend --url
+```
+
+---
+
+## 💾 Persistent Storage
+
+MongoDB data is stored using a Kubernetes PersistentVolume so data survives pod restarts.
+
+| Resource | Name | Capacity | Access Mode |
+|---|---|---|---|
+| PersistentVolume | `mongo-pv` | 2Gi | ReadWriteOnce |
+| PersistentVolumeClaim | `mongo-pvc` | 2Gi | ReadWriteOnce |
+
+The volume is mounted at `/data/db` inside the MongoDB container.
+
+---
+
+## 📈 Scaling Configuration
+
+Horizontal Pod Autoscaling (HPA) is configured for both frontend and backend.
+
+| Setting | Value |
+|---|---|
+| Minimum Pods | 2 |
+| Maximum Pods | 5 |
+| CPU Utilization Target | 70% |
+
+Enable the metrics server in minikube for HPA to work:
+
+```bash
+minikube addons enable metrics-server
+```
+
+Verify autoscaling:
+
+```bash
+kubectl get hpa
+```
+
+To manually test scaling:
+
+```bash
+# Scale backend to 5 replicas manually
+kubectl scale deployment backend --replicas=5
+
+# Watch pods scale
+kubectl get pods -w
+```
